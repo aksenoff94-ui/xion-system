@@ -1,15 +1,14 @@
 name: XION Auto Post
 
 on:
-  schedule:
-    - cron: '0 9 * * *'
+  workflow_dispatch:
 
 jobs:
   post:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -20,7 +19,7 @@ jobs:
       - name: Install requests
         run: pip install requests
 
-      - name: Run AI Post Script
+      - name: Run script
         env:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
