@@ -42,7 +42,18 @@ response = requests.post(
     json=data
 )
 
-post_text = response.json()["choices"][0]["message"]["content"]
+# Add error handling
+if response.status_code != 200:
+    print(f"API Error: {response.status_code}")
+    print(response.json())
+    exit(1)
+
+response_data = response.json()
+if "choices" not in response_data or not response_data["choices"]:
+    print(f"Unexpected API response: {response_data}")
+    exit(1)
+
+post_text = response_data["choices"][0]["message"]["content"]
 
 telegram_url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
 
